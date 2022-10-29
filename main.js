@@ -17,5 +17,6 @@ const checkAccount = async(e)=> {
         }
     }
 }
+ 
 
 document.querySelector('.submit-account').addEventListener('submit', checkAccount);
