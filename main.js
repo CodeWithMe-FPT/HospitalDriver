@@ -16,7 +16,7 @@ const checkAccount = async(e)=> {
     //         }
     //     }
     // }
-    window.location.href = "/hospital/driver/";
+    window.location.href = "/dashboard";
 }
  
 
