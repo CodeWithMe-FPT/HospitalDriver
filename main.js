@@ -1,7 +1,22 @@
-let cookie_log = document.cookie.split("=");
-if(cookie_log.length==2){
+import { 
+    signIn,
+    
+} from "./store/api.js";
+let uid;
+let cookie_log = document.cookie.split("; ").forEach((key, index)=>{
+    var x;
+    if((x = document.cookie.split("="))[0]=="_log"){
+        uid = x[1];
+        console.log(uid);
+    }
+})
+
+if(uid){
     window.location.href = "/dashboard";
+} else{
+    console.log("please login first")
 }
+
 const checkAccount = async(e)=> {
     const check = {
         email: document.querySelector('.input-email').value,
