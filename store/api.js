@@ -98,7 +98,7 @@ export const getHospitalByAccount = async (id) => {
   if (accountSnapshot.exists()) {
     const data = accountSnapshot.data();
     const hospitalDetail = await getHospitalById(data.hosId);
-    return hospitalDetail;
+    return {...hospitalDetail, ...data};
   } else {
     Promise.reject("Not found");
   }

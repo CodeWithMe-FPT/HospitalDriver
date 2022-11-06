@@ -1,18 +1,24 @@
 import { 
-    getAccountStatus,
-    getListVictim
-} from "./guideline.js";
-let idDriver;
+    signIn,
+} from "/store/api.js";
+let cookie_log = document.cookie.split("; ");
+if(cookie_log.length==3){
+    window.location.href = "/dashboard";
+}
 const checkAccount = async(e)=> {
-    var email = document.querySelector('.input-email').value;
-    var pass = document.querySelector('.input-password').value;
+    const check = {
+        email: document.querySelector('.input-email').value,
+        password: document.querySelector('.input-password').value
+    }
     e.preventDefault();
-    let status  = await getAccountStatus(email, pass);
-    if(status == "failed" || status == "none"){
-        alert(status);
-    } else{
-        idDriver = status;
+    let status  = await signIn(check);
+    if(typeof status === "object"){
+        var now = new Date();
+        now.setDate(now.getDate() + 1);
+        document.cookie= `_log=${status.id}; expires=${now.toUTCString()}`;
         window.location.href = "/dashboard";
+    } else{
+        alert(status);
     }
 }
 
