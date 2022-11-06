@@ -1,8 +1,5 @@
-import { 
-    signIn,
-} from "/store/api.js";
-let cookie_log = document.cookie.split("; ");
-if(cookie_log.length==3){
+let cookie_log = document.cookie.split("=");
+if(cookie_log.length==2){
     window.location.href = "/dashboard";
 }
 const checkAccount = async(e)=> {
