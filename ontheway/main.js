@@ -94,8 +94,10 @@ await renderCaseId(driverInfo.hosId, receiveCase).then(()=>{
 document.querySelector('.btn-success').addEventListener('click',async()=>{
     document.cookie= `_cId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; Path=/`;
     await completeCall(driverInfo.hosId, receiveCase);
-    await deleteCall(driverInfo.hosId, receiveCase);
-    window.location.href = "/dashboard";
+    deleteCall(driverInfo.hosId, receiveCase).then(()=>{
+        window.location.href = "/dashboard";
+    });
+    
 })
 
 document.querySelector('.log-out').addEventListener('click', ()=>{
