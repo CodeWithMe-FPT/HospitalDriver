@@ -176,13 +176,15 @@ export const listenCall = (hosId, callback) => {
   const callRef = ref(database, "call/" + hosId.split(".")[0]);
   onValue(callRef, (snapshot) => {
     const data = snapshot.val();
-    const mappedData = Object.keys(data).map((key) => {
-      return {
-        ...data[key],
-        cId: key,
-      };
-    });
-    callback(mappedData);
+    const mappedData = Object.keys(data)
+      .filter((key) => key !== "amount")
+      .map((key) => {
+        return {
+          ...data[key],
+          cId: key,
+        };
+      });
+    callback(mappedData, data.amount);
   });
 };
 
@@ -194,11 +196,29 @@ export const listenAmbulance = (hosId, keyCall, callback) => {
   });
 };
 
-export const receiveCall = (hosId, keyCall) => {
+export const receiveCall = async (hosId, keyCall) => {
   const callRef = ref(database, "call/" + hosId.split(".")[0] + "/" + keyCall);
+  const amountRef = ref(database, "call/" + hosId.split(".")[0] + "/amount");
+
   update(callRef, {
     ambulance: true,
   });
+  const amount = await get(amountRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        return 0;
+      }
+    })
+    .catch(() => {
+      return 0;
+    });
+  if (amount > 0) {
+    update(ref(database, "call/" + hosId.split(".")[0]), {
+      amount: amount - 1,
+    });
+  }
 };
 
 export const updatePosition = (hosId, keyCall, ambulancePos) => {

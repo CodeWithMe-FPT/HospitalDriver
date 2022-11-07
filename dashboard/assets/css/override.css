@@ -20,6 +20,7 @@
     padding: 10px 0;
 }
 
+
 .victim-list-container{
     margin-top: 17px;
     display: flex;
@@ -56,6 +57,12 @@
 .victim-flex-box2{
     display: flex;
     align-items: center;
+}
+
+.hospital-name{
+    font-size: 17px;
+    font-weight: 500;
+    color: #4069E5FF;
 }
 
 .victim-phone-number{
@@ -100,7 +107,18 @@
     font-size: 14px;
     font-family: "Roboto",sans-serif;
 }
+.modal{
+    padding-top: 115px;
+}
+.modal.modal-open{
+    display: block;
+    background-color: rgba(0,0,0,0.4);
+}
 
+.btn-close{
+    margin: 0;
+    padding: 0;
+}
 p{
     margin: 0;
 }
