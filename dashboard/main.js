@@ -3,6 +3,7 @@ import {
     listenCall,
     getHospitalByAccount,
     deleteAllCall,
+    receiveCall,
 } from "../store/api.js";
 
 const victimList = document.querySelector('.victim-list');
@@ -11,13 +12,6 @@ Array.from(document.querySelectorAll('.btn-close-1')).map((btn)=>{
    btn.addEventListener('click',()=>{
     modal.classList.remove("modal-open")
    })
-})
-
-document.querySelector('.btn-confirm').addEventListener('click', ()=>{
-    var now = new Date();
-    now.setDate(now.getDate() + 1);
-    document.cookie= `_cId=${receiveCase}; expires=${now.toUTCString()}; Path=/`;
-    window.location.href = "/ontheway";
 })
 
 document.getElementsByTagName('body')[0].style.display = "none";
@@ -50,6 +44,13 @@ if(!uid){
     }
 }
 
+document.querySelector('.btn-confirm').addEventListener('click', ()=>{
+    var now = new Date();
+    now.setDate(now.getDate() + 1);
+    document.cookie= `_cId=${receiveCase}; expires=${now.toUTCString()}; Path=/`;
+    receiveCall(driverInfo.hosId, receiveCase)
+    window.location.href = "/ontheway";
+})
 
 listenCall(driverInfo.hosId,(data)=>{
     data.map((victim)=>{

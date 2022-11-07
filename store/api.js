@@ -172,6 +172,24 @@ export const callAmbulance = (hosId, coordinate, phone) => {
   return newPostRef.key;
 };
 
+export const getCaseById = async (hosId, keyCall)=>{
+  let dbr  = ref(database, "call/" + hosId.split(".")[0] + "/" + keyCall)
+  let snapshot = await get(dbr);
+  if (snapshot.exists()) {
+    return snapshot.val()
+  } else {
+    console.log("No data available");
+  }
+}
+
+export const listenAmount = (hosId, callback) => {
+  const callRef = ref(database, "call/" + hosId.split(".")[0]);
+  onValue(callRef, (snapshot) => {
+    const data = snapshot.val();
+    callback(data.amount);
+  });
+};
+
 export const listenCall = (hosId, callback) => {
   const callRef = ref(database, "call/" + hosId.split(".")[0]);
   onValue(callRef, (snapshot) => {
@@ -221,6 +239,31 @@ export const receiveCall = async (hosId, keyCall) => {
   }
 };
 
+export const completeCall = async (hosId, keyCall) => {
+  const callRef = ref(database, "call/" + hosId.split(".")[0] + "/" + keyCall);
+  const amountRef = ref(database, "call/" + hosId.split(".")[0] + "/amount");
+
+  update(callRef, {
+    ambulance: true,
+  });
+  const amount = await get(amountRef)
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        return snapshot.val();
+      } else {
+        return 0;
+      }
+    })
+    .catch(() => {
+      return 0;
+    });
+  if (amount > 0) {
+    update(ref(database, "call/" + hosId.split(".")[0]), {
+      amount: amount + 1,
+    });
+  }
+};
+
 export const updatePosition = (hosId, keyCall, ambulancePos) => {
   const callRef = ref(database, "call/" + hosId.split(".")[0] + "/" + keyCall);
   update(callRef, {
@@ -229,8 +272,8 @@ export const updatePosition = (hosId, keyCall, ambulancePos) => {
   console.log(callRef);
 };
 
-export const deleteCall = (hosId, keyCall) => {
-  remove(ref(database, "call/" + hosId.split(".")[0] + "/" + keyCall));
+export const deleteCall = async(hosId, keyCall) => {
+  await remove(ref(database, "call/" + hosId.split(".")[0] + "/" + keyCall));
 };
 export const deleteAllCall = () => {
   remove(ref(database, "call/"));

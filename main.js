@@ -21,13 +21,8 @@ if(uid){
     } else{
         window.location.href = "/dashboard";
     }
-    
 } else{
     console.log("please login first")
-}
-
-if(uid && receiveCase){
-    window.location.href = "/ontheway"
 }
 
 const checkAccount = async(e)=> {
@@ -41,7 +36,12 @@ const checkAccount = async(e)=> {
         var now = new Date();
         now.setDate(now.getDate() + 1);
         document.cookie= `_log=${status.id}; expires=${now.toUTCString()}`;
-        window.location.href = "/dashboard";
+        if(receiveCase){
+            window.location.href = "/ontheway";
+        } else{
+            window.location.href = "/dashboard";
+        }
+        
     } else{
         alert(status);
     }
