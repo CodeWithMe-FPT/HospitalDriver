@@ -12,37 +12,50 @@ Array.from(document.querySelectorAll('.btn-close-1')).map((btn)=>{
     modal.classList.remove("modal-open")
    })
 })
+
+document.querySelector('.btn-confirm').addEventListener('click', ()=>{
+    var now = new Date();
+    now.setDate(now.getDate() + 1);
+    document.cookie= `_cId=${receiveCase}; expires=${now.toUTCString()}; Path=/`;
+    window.location.href = "/ontheway";
+})
+
 document.getElementsByTagName('body')[0].style.display = "none";
 let uid, driverInfo, receiveCase;
 let cookie_log = document.cookie.split("; ").forEach((key, index)=>{
     var x;
-    if((x = document.cookie.split("="))[0]=="_log"){
+    if((x = key.split("="))[0]=="_log"){
         uid = x[1];
         console.log(uid);
+    }
+    if((x = key.split("="))[0]=="_cId"){
+        receiveCase = x[1];
+        console.log(receiveCase);
     }
 })
 
 if(!uid){
     window.location.href = "/";
 } else{
-    // callAmbulance("1842979c32e0.eb8e1b09ef8e6", "10.8445823, 106.7521356", "0333159054");
-    driverInfo = await getHospitalByAccount(uid);
-    let name = document.createElement('span');
-    name.classList.add("driver-name", "mx-3");
-    name.innerHTML = `Tài xế: ${driverInfo.nameDriver}`
-    document.querySelector('.driver-name-cointainer').appendChild(name);
-    document.getElementsByTagName('body')[0].style.display = "block";
+    if(receiveCase){
+        window.location.href = "/ontheway";
+    } else {
+        // callAmbulance("1842979c32e0.eb8e1b09ef8e6", "10.8445823, 106.7521356", "0333159054");
+        driverInfo = await getHospitalByAccount(uid);
+        let name = document.createElement('span');
+        name.classList.add("driver-name", "mx-3");
+        name.innerHTML = `Tài xế: ${driverInfo.nameDriver}`
+        document.querySelector('.driver-name-cointainer').appendChild(name);
+        document.getElementsByTagName('body')[0].style.display = "block";
+    }
 }
 
-const openModal = 
 
-listenCall("1842979c32e0.eb8e1b09ef8e6",(data)=>{
+listenCall(driverInfo.hosId,(data)=>{
     data.map((victim)=>{
         const boxVictimInfo = document.createElement("div");
         boxVictimInfo.classList.add("victim-info-container");
         boxVictimInfo.setAttribute("case_id", victim.cId);
-        // boxVictimInfo.setAttribute("data-toggle", "modal");
-        // boxVictimInfo.setAttribute("data-target", "#exampleModal")
         boxVictimInfo.addEventListener('click', ()=>{
             document.querySelector('.modal').classList.add('modal-open');
             receiveCase = victim.cId;

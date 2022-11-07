@@ -2,19 +2,32 @@ import {
     signIn,
     
 } from "./store/api.js";
-let uid;
+let uid, receiveCase;
 let cookie_log = document.cookie.split("; ").forEach((key, index)=>{
     var x;
-    if((x = document.cookie.split("="))[0]=="_log"){
+    if((x = key.split("="))[0]=="_log"){
         uid = x[1];
         console.log(uid);
+    }
+    if((x = key.split("="))[0]=="_cId"){
+        receiveCase = x[1];
+        console.log(receiveCase);
     }
 })
 
 if(uid){
-    window.location.href = "/dashboard";
+    if(uid&&receiveCase){
+        window.location.href = "/ontheway";
+    } else{
+        window.location.href = "/dashboard";
+    }
+    
 } else{
     console.log("please login first")
+}
+
+if(uid && receiveCase){
+    window.location.href = "/ontheway"
 }
 
 const checkAccount = async(e)=> {
