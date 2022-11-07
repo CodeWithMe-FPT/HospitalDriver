@@ -53,8 +53,9 @@ document.querySelector('.btn-confirm').addEventListener('click', ()=>{
 })
 
 listenCall(driverInfo.hosId,(data)=>{
+    victimList.innerHTML ="";
+    console.log(data)
     data.map((victim)=>{
-        victimList.innerHTML = "";
         const boxVictimInfo = document.createElement("div");
         boxVictimInfo.classList.add("victim-info-container");
         boxVictimInfo.setAttribute("case_id", victim.cId);
