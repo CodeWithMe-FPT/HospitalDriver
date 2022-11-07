@@ -269,7 +269,7 @@ export const updatePosition = (hosId, keyCall, ambulancePos) => {
   update(callRef, {
     ambulancePos: ambulancePos,
   });
-  console.log(callRef);
+  console.log("Cập nhật vị trí thành công");
 };
 
 export const deleteCall = async(hosId, keyCall) => {
