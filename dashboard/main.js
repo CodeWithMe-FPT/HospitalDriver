@@ -5,7 +5,6 @@ import {
     deleteAllCall,
     receiveCall,
 } from "../store/api.js";
-alert("get name")
 const victimList = document.querySelector('.victim-list');
 const modal = document.querySelector('.modal')
 Array.from(document.querySelectorAll('.btn-close-1')).map((btn)=>{
@@ -34,7 +33,6 @@ if(!uid){
     if(receiveCase){
         window.location.href = "/ontheway";
     } else {
-        alert("get name")
         driverInfo = await getHospitalByAccount(uid);
         let name = document.createElement('span');
         name.classList.add("driver-name", "mx-3");
