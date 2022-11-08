@@ -257,7 +257,7 @@ export const completeCall = async (hosId, keyCall) => {
     .catch(() => {
       return 0;
     });
-  if (amount > 0) {
+  if (amount >= 0) {
     update(ref(database, "call/" + hosId.split(".")[0]), {
       amount: amount + 1,
     });
