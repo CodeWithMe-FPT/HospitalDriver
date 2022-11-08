@@ -34,7 +34,7 @@ if(!uid){
     if(receiveCase){
         window.location.href = "/ontheway";
     } else {
-        // callAmbulance("1842979c32e0.eb8e1b09ef8e6", "10.8445823, 106.7521356", "0333159054");
+        alert("get name")
         driverInfo = await getHospitalByAccount(uid);
         let name = document.createElement('span');
         name.classList.add("driver-name", "mx-3");
