@@ -5,7 +5,7 @@ import {
     deleteAllCall,
     receiveCall,
 } from "../store/api.js";
-
+alert("get name")
 const victimList = document.querySelector('.victim-list');
 const modal = document.querySelector('.modal')
 Array.from(document.querySelectorAll('.btn-close-1')).map((btn)=>{
